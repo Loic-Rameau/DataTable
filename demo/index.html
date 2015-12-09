@@ -31,6 +31,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <script>
             $(function (){
                 var dataTable = document.querySelector("loic-datatable");
+                var table = dataTable.querySelector("table");
+                table.classList.add("table");
+                table.classList.add("table-hover");
             });
         </script>
 

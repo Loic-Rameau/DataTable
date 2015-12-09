@@ -30,37 +30,37 @@ Polymer({
                             formation: "C#",
                             civ: "M."
                         }, {
-                            id: 1,
+                            id: 2,
                             name: "Foo",
                             firstname: "Bar",
                             formation: "C++",
                             civ: "M."
                         }, {
-                            id: 1,
+                            id: 3,
                             name: "Foo",
                             firstname: "Bar",
                             formation: "PHP",
                             civ: "M."
                         }, {
-                            id: 1,
+                            id: 4,
                             name: "Bar",
                             firstname: "Foo",
                             formation: "PHP",
                             civ: "Mme"
                         }, {
-                            id: 1,
+                            id: 5,
                             name: "Bar",
                             firstname: "Foo",
                             formation: "HTML",
                             civ: "Mme"
                         }, {
-                            id: 1,
+                            id: 6,
                             name: "Bar",
                             firstname: "Foo",
                             formation: "SQL",
                             civ: "Mme"
                         }, {
-                            id: 1,
+                            id: 7,
                             name: "Toto",
                             firstname: "Tata",
                             formation: "SQL",
@@ -69,6 +69,10 @@ Polymer({
                     ]
             },
             notify:true
+        },
+        itemFiltered:{
+            type: Object,
+            readOnly: true
         },
         withBootstrap: {
             type: Boolean,
@@ -86,25 +90,12 @@ Polymer({
             value:false
         }
     },
-
     ready:function() {
         this._setEmptyContent(Polymer.dom(this).children.length === 0);
         if(!this.emptyContent){
             this.initData();
         }
-        this.majTableClass(this.withBootstrap, this.customClass);
-    },
-    majTableClass: function (withBootstrap, customClass) {
-        var table = this.querySelector("table");
-        console.log(table);
-        if(table){
-            if(withBootstrap){
-                table.classList.add("table");
-                table.classList.add("table-hover");
-            }
-            if(customClass !== "")
-                table.classList.add(customClass);
-        }
+        this._setItemFiltered(this.dataTable.Items);
     },
     initData:function(){
         var headers = [], items = [], table = this.querySelector("table");
@@ -134,5 +125,19 @@ Polymer({
     },
     getIn: function (item, member) {
         return item[member];
+    },
+    unique:function(array, member){
+        var a = [];
+        array.forEach(function(item){
+            if(a.indexOf(item[member]) === -1)
+                a.push(item[member]);
+        });
+        return a;
+    },
+    changeSelectFilter:function(e, a){
+        var model = e.model;
+        this._setItemFiltered(this.dataTable.Items.filter(function(item){
+            return item[e.model.get("header.DisplayMember")] == e.target.value;
+        }));
     }
 });

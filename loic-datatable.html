@@ -29,12 +29,20 @@ Example:
                 <thead>
                 <tr>
                     <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                        <th>{{header.Value}}</th>
+                        <th>{{header.Value}}
+                        <select name="{{header.DisplayMember}}" on-change="changeSelectFilter">
+                            <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
+                                <option value="{{item}}">
+                                    {{item}}
+                                </option>
+                            </template>
+                        </select>
+                        </th>
                     </template>
                 </tr>
                 </thead>
                 <tbody>
-                <template is="dom-repeat" items="{{dataTable.Items}}">
+                <template is="dom-repeat" items="{{itemFiltered}}">
                     <tr>
                         <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
                             <td>{{getIn(item,header.DisplayMember)}}</td>
