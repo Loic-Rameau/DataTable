@@ -7,19 +7,24 @@ Polymer({
                     Header: [
                         {
                             Value: "ID",
-                            DisplayMember: "id"
+                            DisplayMember: "id",
+                            filter: ""
                         }, {
                             Value: "Civilité",
-                            DisplayMember: "civ"
+                            DisplayMember: "civ",
+                            filter: ""
                         }, {
                             Value: "Nom",
-                            DisplayMember: "name"
+                            DisplayMember: "name",
+                            filter: ""
                         }, {
                             Value: "Prénom",
-                            DisplayMember: "firstname"
+                            DisplayMember: "firstname",
+                            filter: ""
                         }, {
                             Value: "Formation",
-                            DisplayMember: "formation"
+                            DisplayMember: "formation",
+                            filter: ""
                         }
                     ],
                     Items: [
@@ -79,22 +84,30 @@ Polymer({
             notify: true,
             value: true
         },
+        currentPage:{
+            type: Number,
+            value: 0
+        },
+        displayByPage:{
+            type: Number,
+            value: 5
+        },
         customClass: {
             type: String,
             notify: true,
             value: ""
-        },
-        emptyContent:{
-            type: Boolean,
-            readOnly: true,
-            value:false
         }
+        //emptyContent:{
+        //    type: Boolean,
+        //    readOnly: true,
+        //    value:false
+        //}
     },
     ready:function() {
-        this._setEmptyContent(Polymer.dom(this).children.length === 0);
-        if(!this.emptyContent){
-            this.initData();
-        }
+        //this._setEmptyContent(Polymer.dom(this).children.length === 0);
+        //if(!this.emptyContent){
+        //    this.initData();
+        //}
         this._setItemFiltered(this.dataTable.Items);
     },
     initData:function(){
@@ -135,9 +148,48 @@ Polymer({
         return a;
     },
     changeSelectFilter:function(e, a){
-        var model = e.model;
+        e.model.set("header.filter",e.target.value);
+        this._filter();
+    },
+    getItems:function(array, nb, page){
+        var a = [];
+        array.forEach(function(item, index) {
+            if(
+                    index >= (page*nb)
+            )
+            if(a.length < nb)
+                a.push(item);
+        });
+        return a;
+    },
+    pageDown:function(){
+        if(this.currentPage > 0)
+            this.currentPage--;
+    },
+    pageUp:function(){
+        if(this.currentPage < (this.itemFiltered.length/this.displayByPage))
+            this.currentPage++;
+    },
+    currentPageDisplay:function(page){return page+1;},
+    getNbPage:function(itemFiltered, displayByPage){
+        return parseInt(itemFiltered.length / displayByPage, 10) + 1;
+    },
+    reorder:function(e){
+        this._setItemFiltered(this.dataTable.Items);
+    },
+    _filter:function(){
+        var header = this.dataTable.Header;
         this._setItemFiltered(this.dataTable.Items.filter(function(item){
-            return item[e.model.get("header.DisplayMember")] == e.target.value;
+            var ret = true;
+            header.forEach(function(a){
+                if(a.filter){
+                    ret = ret && item[a.DisplayMember] == a.filter;
+                }
+            });
+            return ret;
         }));
+    },
+    isFiltered:function(header, filter){
+        return header.filter == filter ? "selected": "";
     }
 });
