@@ -22,24 +22,29 @@ Example:
 @hero hero.svg
 -->
 <dom-module id="loic-datatable">
-
-  <template>
-        <table class="{{classList}}">
-            <tr>
-                <template repeat="{{header in dataTable.Header}}">
-                    <th>{{header.Value}}</th>
-                </template>
-            </tr>
-            <template repeat="{{item in dataTable.Items}}">
+    <template>
+        <content select=".table"></content>
+        <template is="dom-if" if="{{emptyContent}}" restamp="true">
+            <table>
+                <thead>
                 <tr>
-                    <template repeat="{{header in dataTable.Header}}">
-                        <td>{{item[header.DisplayMember]}}</td>
+                    <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
+                        <th>{{header.Value}}</th>
                     </template>
                 </tr>
-            </template>
-        </table>
-  </template>
-
+                </thead>
+                <tbody>
+                <template is="dom-repeat" items="{{dataTable.Items}}">
+                    <tr>
+                        <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
+                            <td>{{getIn(item,header.DisplayMember)}}</td>
+                        </template>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </template>
+    </template>
+    <script src="loic-datatable.js"></script>
 </dom-module>
 
-<script src="loic-datatable.js"></script>
