@@ -2,17 +2,18 @@
   "name": "loic-datatable",
   "version": "1.0.3",
   "authors": [
-    "Anonymous <anonymous@example.com>"
+    "Loïc Rameau <loic.rameau@gmail.com>"
   ],
-  "description": "An element providing a solution to no problem in particular.",
+  "description": "A datatable whith filtering and ordering",
   "keywords": [
     "web-component",
     "polymer",
-    "seed"
+    "seed",
+    "dataTable"
   ],
   "main": "loic-datatable.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "homepage": "https://github.com/loic-rameau/dataTable/",
   "ignore": [
     "/.*",
     "/test/"
