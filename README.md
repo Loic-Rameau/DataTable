@@ -4,7 +4,7 @@ A datatable whith filtering and ordering
 
 # Knowing issues
 
-Due to the fact we use a table. The table rendering doesn't work on IE and other engine who doesn't support template in table and select.
+Due to the fact we use a table. The select rendering doesn't work on IE and other engine who doesn't support template.
 
 ## Dependencies
 
