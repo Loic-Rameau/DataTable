@@ -15,9 +15,6 @@ Example:
 <dom-module id="loic-datatable">
     <template>
         <style>
-            th span{
-                cursor: pointer;
-            }
             .no-select {
                  -webkit-touch-callout: none;
                  -webkit-user-select: none;
@@ -25,44 +22,60 @@ Example:
                  -moz-user-select: none;
                  -ms-user-select: none;
                  user-select: none;
+                cursor: pointer;
              }
+            .div-table{
+                display:table;
+                width:auto;
+                background-color:#eee;
+                border:1px solid  #666666;
+                border-spacing:5px;/*cellspacing:poor IE support for  this*/
+            }
+            .div-table-row{
+                display:table-row;
+                width:auto;
+                clear:both;
+            }
+            .div-table-col{
+                float:left;/*fix for  buggy browsers*/
+                display:table-column;
+                width:200px;
+                background-color:#ccc;
+            }
         </style>
-        <table>
-            <thead>
-            <tr>
+        <div class="div-table">
+            <div class="div-table-row table">
                 <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                    <th> <span on-click="reorder" class="no-select">{{header.Value}}</span>
-                    <select name="{{header.DisplayMember}}" on-change="changeSelectFilter">
-                        <option value="" selected="{{isFiltered(header, '')}}">All</option>
-                        <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
-                            <option value="{{item}}" selected="{{isFiltered(header, item)}}">
-                                {{item}}
-                            </option>
+                    <div class="div-table-col"> <span on-click="reorder" class="no-select">{{header.Value}}</span>
+                        <template is="dom-if" if="{{header.filterOn}}">
+                            <select name="{{header.DisplayMember}}" on-change="changeSelectFilter">
+                                <option value="" selected="{{isFiltered(header, '')}}">All</option>
+                                <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
+                                    <option value="{{item}}" selected="{{isFiltered(header, item)}}">
+                                        {{item}}
+                                    </option>
+                                </template>
+                            </select>
                         </template>
-                    </select>
-                    </th>
+                    </div>
                 </template>
-            </tr>
-            </thead>
-            <tbody>
+            </div>
             <template is="dom-repeat" items="{{DisplayedItems}}">
-                <tr>
+                <div class="div-table-row">
                     <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                        <td>{{getIn(item,header.DisplayMember)}}</td>
+                        <div class="div-table-col">{{getIn(item,header.DisplayMember)}}</div>
                     </template>
-                </tr>
+                </div>
             </template>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="{{dataTable.Header.lenght}}">
+            <div class="div-table-row">
+                <div class="div-table-col" colspan="{{dataTable.Header.lenght}}">
                     <button on-click="pageDown">Precedente</button><button on-click="pageUp">Suivante</button>
+                    <br>
                     Page :
                     <span>{{currentPageDisplay(currentPage)}}</span>/<span>{{getNbPage(itemFiltered, displayByPage)}}</span>
-                </td>
-            </tr>
-            </tfoot>
-        </table>
+                </div>
+            </div>
+        </div>
     </template>
     <script src="loic-datatable.js"></script>
 </dom-module>

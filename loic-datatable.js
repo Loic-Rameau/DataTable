@@ -12,23 +12,28 @@ Polymer({
                     {
                         Value: "ID",
                         DisplayMember: "id",
-                        filter: ""
+                        filter: "",
+                        filterOn: false
                     }, {
                         Value: "Civilité",
                         DisplayMember: "civ",
-                        filter: ""
+                        filter: "",
+                        filterOn: true
                     }, {
                         Value: "Nom",
                         DisplayMember: "name",
-                        filter: ""
+                        filter: "",
+                        filterOn: true
                     }, {
                         Value: "Prénom",
                         DisplayMember: "firstname",
-                        filter: ""
+                        filter: "",
+                        filterOn: true
                     }, {
                         Value: "Formation",
                         DisplayMember: "formation",
-                        filter: ""
+                        filter: "",
+                        filterOn: true
                     }
                 ],
                 Items: [
@@ -111,6 +116,9 @@ Polymer({
         //    value:false
         //}
     },
+    observers: [
+        'updateFilter(dataTable.Header.*)'
+    ],
     ready: function () {
         //this._setEmptyContent(Polymer.dom(this).children.length === 0);
         //if(!this.emptyContent){
@@ -157,6 +165,8 @@ Polymer({
     },
     changeSelectFilter: function (e, a) {
         e.model.set("header.filter", e.target.value);
+    },
+    updateFilter: function(filter){
         this._filter();
     },
     getItems: function (array, nb, page, order) {
