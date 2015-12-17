@@ -117,7 +117,8 @@ Polymer({
         //}
     },
     observers: [
-        'updateFilter(dataTable.Header.*)'
+        'updateFilter(dataTable.Header.*)',
+        'updateItems(dataTable.Items.*)'
     ],
     ready: function () {
         //this._setEmptyContent(Polymer.dom(this).children.length === 0);
@@ -163,6 +164,9 @@ Polymer({
         });
         return a;
     },
+    updateItems:function(items){
+        this._filter();
+    },
     changeSelectFilter: function (e, a) {
         e.model.set("header.filter", e.target.value);
     },
@@ -185,7 +189,7 @@ Polymer({
             this.currentPage--;
     },
     pageUp: function () {
-        if (this.currentPage < (this.itemFiltered.length / this.displayByPage))
+        if (this.currentPage+1 < (this.itemFiltered.length / this.displayByPage))
             this.currentPage++;
     },
     currentPageDisplay: function (page) {
