@@ -8,79 +8,8 @@ Polymer({
                     Member: "",
                     Sens: 1 //1 = ASC ; -1 = DESC
                 },
-                Header: [
-                    {
-                        Value: "ID",
-                        DisplayMember: "id",
-                        filter: "",
-                        filterOn: false
-                    }, {
-                        Value: "Civilité",
-                        DisplayMember: "civ",
-                        filter: "",
-                        filterOn: true
-                    }, {
-                        Value: "Nom",
-                        DisplayMember: "name",
-                        filter: "",
-                        filterOn: true
-                    }, {
-                        Value: "Prénom",
-                        DisplayMember: "firstname",
-                        filter: "",
-                        filterOn: true
-                    }, {
-                        Value: "Formation",
-                        DisplayMember: "formation",
-                        filter: "",
-                        filterOn: true
-                    }
-                ],
-                Items: [
-                    {
-                        id: 1,
-                        name: "Foo",
-                        firstname: "Bar",
-                        formation: "C#",
-                        civ: "M."
-                    }, {
-                        id: 2,
-                        name: "Foo",
-                        firstname: "Bar",
-                        formation: "C++",
-                        civ: "M."
-                    }, {
-                        id: 3,
-                        name: "Foo",
-                        firstname: "Bar",
-                        formation: "PHP",
-                        civ: "M."
-                    }, {
-                        id: 4,
-                        name: "Bar",
-                        firstname: "Foo",
-                        formation: "PHP",
-                        civ: "Mme"
-                    }, {
-                        id: 5,
-                        name: "Bar",
-                        firstname: "Foo",
-                        formation: "HTML",
-                        civ: "Mme"
-                    }, {
-                        id: 6,
-                        name: "Bar",
-                        firstname: "Foo",
-                        formation: "SQL",
-                        civ: "Mme"
-                    }, {
-                        id: 7,
-                        name: "Toto",
-                        firstname: "Tata",
-                        formation: "SQL",
-                        civ: "M."
-                    }
-                ]
+                Header: [],
+                Items: []
             },
             notify: true
         },
@@ -99,7 +28,8 @@ Polymer({
         },
         displayByPage: {
             type: Number,
-            value: 5
+            value: 5,
+            notify: true
         },
         customClass: {
             type: String,
@@ -154,7 +84,7 @@ Polymer({
             this.dataTable.Items = items;
     },
     getIn: function (item, member) {
-        return item[member];
+        return item[member]?item[member]:'-';
     },
     unique: function (array, member) {
         var a = [];
@@ -240,5 +170,10 @@ Polymer({
             }
         });
         return a;
+    },
+    itemByPageChanged:function(e)
+    {
+        console.log(e.target.value);
+        this.set('displayByPage', e.target.value);
     }
 });
