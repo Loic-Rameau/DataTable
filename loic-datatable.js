@@ -84,7 +84,14 @@ Polymer({
             this.dataTable.Items = items;
     },
     getIn: function (item, member) {
-        return item[member]?item[member]:'-';
+        if(item[member] !== null)
+        {
+            if(item[member].toLocaleDateString !== undefined)
+                return item[member].toLocaleDateString();
+            return item[member];
+        }
+        else
+            return '-';
     },
     unique: function (array, member) {
         var a = [];
