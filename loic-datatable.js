@@ -87,7 +87,7 @@ Polymer({
         if(item[member] !== null)
         {
             if(item[member].toLocaleDateString !== undefined)
-                return item[member].toLocaleDateString();
+                return item[member].toString('dd/MM/yyyy');
             return item[member];
         }
         else
