@@ -1,4 +1,4 @@
-Polymer({
+LoicDataTable = Polymer({
     is: 'loic-datatable',
     properties: {
         dataTable: {
@@ -50,6 +50,11 @@ Polymer({
         'updateFilter(dataTable.Header.*)',
         'updateItems(dataTable.Items.*)'
     ],
+    factoryImpl: function(header, items,displayByPage) {
+        this.set('dataTable.Header', header);
+        this.set('dataTable.Items', items);
+        this.set('displayByPage', displayByPage);
+    },
     ready: function () {
         //this._setEmptyContent(Polymer.dom(this).children.length === 0);
         //if(!this.emptyContent){
