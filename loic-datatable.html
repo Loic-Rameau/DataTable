@@ -65,9 +65,9 @@ Example:
                     </template>
                 </div>
                 <template is="dom-repeat" items="{{DisplayedItems}}">
-                    <div class="div-table-row">
+                    <div class="div-table-row div-table-tbody-row">
                         <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                            <div class="div-table-col">
+                            <div class="div-table-col" headerMember$="{{header.DisplayMember}}">
                                 {{getIn(item,header.DisplayMember)}}
                             </div>
                         </template>

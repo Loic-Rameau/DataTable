@@ -48,19 +48,21 @@ LoicDataTable = Polymer({
     },
     observers: [
         'updateFilter(dataTable.Header.*)',
-        'updateItems(dataTable.Items.*)'
+        'updateItems(dataTable.Items.*)',
+        'displayItemsChanged(itemFiltered, displayByPage, currentPage, dataTable.Order.*)'
     ],
     factoryImpl: function(header, items,displayByPage) {
         this.set('dataTable.Header', header);
         this.set('dataTable.Items', items);
         this.set('displayByPage', displayByPage);
+        this._setItemFiltered(this.dataTable.Items);
+        this.fire('DisplayedItems-changed', this.DisplayedItems);
     },
     ready: function () {
         //this._setEmptyContent(Polymer.dom(this).children.length === 0);
         //if(!this.emptyContent){
         //    this.initData();
         //}
-        this._setItemFiltered(this.dataTable.Items);
     },
     initData: function () {
         var headers = [], items = [], table = this.querySelector("table");
@@ -195,5 +197,8 @@ LoicDataTable = Polymer({
         if (this.currentPageDisplay(this.currentPage) >= nbPage) {
             this.set('currentPage', nbPage - 1);
         }
+    },
+    displayItemsChanged:function(){
+        this.fire('DisplayedItems-changed', this.DisplayedItems);
     }
 });
