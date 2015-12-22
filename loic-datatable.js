@@ -185,7 +185,11 @@ LoicDataTable = Polymer({
     },
     itemByPageChanged:function(e)
     {
-        console.log(e.target.value);
         this.set('displayByPage', e.target.value);
+        var nbPage = this.getNbPage(this.itemFiltered, this.displayByPage);
+
+        if (this.currentPageDisplay(this.currentPage) >= nbPage) {
+            this.set('currentPage', nbPage - 1);
+        }
     }
 });
