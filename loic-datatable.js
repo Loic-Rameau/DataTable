@@ -161,6 +161,7 @@ LoicDataTable = Polymer({
             });
             return ret;
         }));
+        this.resolvePageProblem();
     },
     isFiltered: function (header, filter) {
         return header.filter == filter ? "selected" : "";
@@ -186,6 +187,9 @@ LoicDataTable = Polymer({
     itemByPageChanged:function(e)
     {
         this.set('displayByPage', e.target.value);
+        this.resolvePageProblem();
+    },
+    resolvePageProblem:function(){
         var nbPage = this.getNbPage(this.itemFiltered, this.displayByPage);
 
         if (this.currentPageDisplay(this.currentPage) >= nbPage) {
