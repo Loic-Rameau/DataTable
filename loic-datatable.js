@@ -151,6 +151,7 @@ LoicDataTable = Polymer({
                 this.set("dataTable.Order.Sens", 1);
         }
         this.set("dataTable.Order.Member",member);
+        this.fire("reordered", this.dataTable.Order);
     },
     _filter: function () {
         var header = this.dataTable.Header;
