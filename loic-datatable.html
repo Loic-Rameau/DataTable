@@ -50,7 +50,7 @@ Example:
                 <div class="div-table-row table">
                     <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
                         <div class="div-table-col">
-                            <span on-click="reorder" class="no-select">{{header.Value}}<span class="glyphicon glyphicon-menu-up"></span></span>
+                            <span on-click="reorder" class="no-select" headerMember$="{{header.DisplayMember}}">{{header.Value}}<span class="glyphicon glyphicon-menu-up"></span></span>
                             <template is="dom-if" if="{{header.filterOn}}">
                                 <select class="select" name="{{header.DisplayMember}}" on-change="changeSelectFilter">
                                     <option value="" selected="{{isFiltered(header, '')}}">All</option>
