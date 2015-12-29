@@ -47,61 +47,63 @@ Example:
             }
         </style>
             <div class="div-table">
-                <div class="div-table-row table">
-                    <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                        <div class="div-table-col">
-                            <span on-click="reorder" class="no-select" headerMember$="{{header.DisplayMember}}">
-                                {{header.Value}}
-                                <span class="glyphicon glyphicon-menu-up"></span>
-                                <span class="glyphicon glyphicon-menu-down"></span>
-                            </span>
-                            <template is="dom-if" if="{{header.filterOn}}">
-                                <select class="select" name="{{header.DisplayMember}}" on-change="changeSelectFilter">
-                                    <option value="" selected="{{isFiltered(header, '')}}">- Tout -</option>
-                                    <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
-                                        <option value="{{item}}" selected="{{isFiltered(header, item)}}">
-                                            {{item}}
-                                        </option>
-                                    </template>
-                                </select>
-                            </template>
-                        </div>
-                    </template>
-                </div>
-                <template is="dom-repeat" items="{{DisplayedItems}}">
-                    <div class="div-table-row div-table-tbody-row">
+                <div class="form-to-fix">
+                    <div class="div-table-row table">
                         <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                            <div class="div-table-col" headerMember$="{{header.DisplayMember}}">
-                                {{getIn(item,header.DisplayMember)}}
+                            <div class="div-table-col">
+                                <span on-click="reorder" class="no-select" headerMember$="{{header.DisplayMember}}">
+                                    {{header.Value}}
+                                    <span class="glyphicon glyphicon-menu-up"></span>
+                                    <span class="glyphicon glyphicon-menu-down"></span>
+                                </span>
+                                <template is="dom-if" if="{{header.filterOn}}">
+                                    <select class="select" name="{{header.DisplayMember}}" on-change="changeSelectFilter">
+                                        <option value="" selected="{{isFiltered(header, '')}}">- Tout -</option>
+                                        <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
+                                            <option value="{{item}}" selected="{{isFiltered(header, item)}}">
+                                                {{item}}
+                                            </option>
+                                        </template>
+                                    </select>
+                                </template>
                             </div>
                         </template>
                     </div>
-                </template>
-                <div class="div-table-row div-table-footer">
-                    <div class="div-table-col">
-                        <div class="pagination">
-                            <button on-click="pageDown" class="btn btn-primary preview">Precedente</button>
-                            <div class="pagination-view">
-                                Page :
-                                <span>{{currentPageDisplay(currentPage)}}</span>/<span>{{getNbPage(itemFiltered, displayByPage)}}</span>
-                            </div>
-                            <button on-click="pageUp" class="btn btn-primary next">Suivante</button>
+                    <template is="dom-repeat" items="{{DisplayedItems}}">
+                        <div class="div-table-row div-table-tbody-row">
+                            <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
+                                <div class="div-table-col" headerMember$="{{header.DisplayMember}}">
+                                    {{getIn(item,header.DisplayMember)}}
+                                </div>
+                            </template>
                         </div>
-                    </div>
-                    <div class="div-table-col">
-                        <div class="pagination-display">
-                            <div class="pagination-length">
-                                <span>Résultats totaux : {{dataTable.Items.length}}</span>
-                                -
-                                <span>Résultats après filtre : {{itemFiltered.length}}</span>
+                    </template>
+                    <div class="div-table-row div-table-footer">
+                        <div class="div-table-col">
+                            <div class="pagination">
+                                <button on-click="pageDown" class="btn btn-primary preview">Precedente</button>
+                                <div class="pagination-view">
+                                    Page :
+                                    <span>{{currentPageDisplay(currentPage)}}</span>/<span>{{getNbPage(itemFiltered, displayByPage)}}</span>
+                                </div>
+                                <button on-click="pageUp" class="btn btn-primary next">Suivante</button>
                             </div>
-                            <select name="itemByPage" value="{{displayByPage}}" on-change="itemByPageChanged">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                            </select> résultats par page
+                        </div>
+                        <div class="div-table-col">
+                            <div class="pagination-display">
+                                <div class="pagination-length">
+                                    <span>Résultats totaux : {{dataTable.Items.length}}</span>
+                                    -
+                                    <span>Résultats après filtre : {{itemFiltered.length}}</span>
+                                </div>
+                                <select name="itemByPage" value="{{displayByPage}}" on-change="itemByPageChanged">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                </select> résultats par page
+                            </div>
                         </div>
                     </div>
                 </div>
