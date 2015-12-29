@@ -69,41 +69,41 @@ Example:
                             </div>
                         </template>
                     </div>
-                    <template is="dom-repeat" items="{{DisplayedItems}}">
-                        <div class="div-table-row div-table-tbody-row">
-                            <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                                <div class="div-table-col" headerMember$="{{header.DisplayMember}}">
-                                    {{getIn(item,header.DisplayMember)}}
-                                </div>
-                            </template>
-                        </div>
-                    </template>
-                    <div class="div-table-row div-table-footer">
-                        <div class="div-table-col">
-                            <div class="pagination">
-                                <button on-click="pageDown" class="btn btn-primary preview">Precedente</button>
-                                <div class="pagination-view">
-                                    Page :
-                                    <span>{{currentPageDisplay(currentPage)}}</span>/<span>{{getNbPage(itemFiltered, displayByPage)}}</span>
-                                </div>
-                                <button on-click="pageUp" class="btn btn-primary next">Suivante</button>
+                </div>
+                <template is="dom-repeat" items="{{DisplayedItems}}">
+                    <div class="div-table-row div-table-tbody-row">
+                        <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
+                            <div class="div-table-col" headerMember$="{{header.DisplayMember}}">
+                                {{getIn(item,header.DisplayMember)}}
                             </div>
-                        </div>
-                        <div class="div-table-col">
-                            <div class="pagination-display">
-                                <div class="pagination-length">
-                                    <span>Résultats totaux : {{dataTable.Items.length}}</span>
-                                    -
-                                    <span>Résultats après filtre : {{itemFiltered.length}}</span>
-                                </div>
-                                <select name="itemByPage" value="{{displayByPage}}" on-change="itemByPageChanged">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
-                                    <option value="30">30</option>
-                                </select> résultats par page
+                        </template>
+                    </div>
+                </template>
+                <div class="div-table-row div-table-footer">
+                    <div class="div-table-col">
+                        <div class="pagination">
+                            <button on-click="pageDown" class="btn btn-primary preview">Precedente</button>
+                            <div class="pagination-view">
+                                Page :
+                                <span>{{currentPageDisplay(currentPage)}}</span>/<span>{{getNbPage(itemFiltered, displayByPage)}}</span>
                             </div>
+                            <button on-click="pageUp" class="btn btn-primary next">Suivante</button>
+                        </div>
+                    </div>
+                    <div class="div-table-col">
+                        <div class="pagination-display">
+                            <div class="pagination-length">
+                                <span>Résultats totaux : {{dataTable.Items.length}}</span>
+                                -
+                                <span>Résultats après filtre : {{itemFiltered.length}}</span>
+                            </div>
+                            <select name="itemByPage" value="{{displayByPage}}" on-change="itemByPageChanged">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                            </select> résultats par page
                         </div>
                     </div>
                 </div>
