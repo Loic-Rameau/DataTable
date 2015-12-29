@@ -63,6 +63,7 @@ LoicDataTable = Polymer({
         //if(!this.emptyContent){
         //    this.initData();
         //}
+        this.addClassPageButton();
     },
     initData: function () {
         var headers = [], items = [], table = this.querySelector("table");
@@ -128,21 +129,25 @@ LoicDataTable = Polymer({
         });
         return a;
     },
+    addClassPageButton: function(){
+        if(this.currentPage < 1)
+            this.querySelector('.btn.preview').classList.add('hidden');
+        else
+            this.querySelector('.btn.preview').classList.remove('hidden');
+        if(this.currentPage === (this.getNbPage(this.itemFiltered, this.displayByPage) -1))
+            this.querySelector('.btn.next').classList.add('hidden');
+        else
+            this.querySelector('.btn.next').classList.remove('hidden');
+    },
     pageDown: function () {
         if (this.currentPage > 0)
             this.currentPage--;
-        if(this.currentPage === 0)
-            this.querySelector('.preview').classList.add('hidden');
-        else
-            this.querySelector('.preview').classList.remove('hidden');
+        this.addClassPageButton();
     },
     pageUp: function () {
         if (this.currentPage+1 < (this.itemFiltered.length / this.displayByPage))
             this.currentPage++;
-        if(this.currentPage === (this.getNbPage(this.itemFiltered, this.displayByPage) -1))
-            this.querySelector('.next').classList.add('hidden');
-        else
-            this.querySelector('.next').classList.remove('hidden');
+        this.addClassPageButton();
     },
     currentPageDisplay: function (page) {
         return page + 1;
