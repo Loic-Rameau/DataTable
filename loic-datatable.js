@@ -214,5 +214,6 @@ LoicDataTable = Polymer({
     },
     displayItemsChanged:function(){
         this.fire('DisplayedItems-changed', this.DisplayedItems);
+        this.addClassPageButton();
     }
 });
