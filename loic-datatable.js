@@ -113,7 +113,7 @@ LoicDataTable = Polymer({
         this._filter();
     },
     changeSelectFilter: function (e, a) {
-        e.model.set("header.filter", e.target.innerHTML);
+        e.model.set("header.filter", e.target.innerText);
     },
     updateFilter: function(filter){
         this._filter();
