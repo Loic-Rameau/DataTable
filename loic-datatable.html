@@ -60,7 +60,8 @@ Example:
 
                                     <div class="btn-group select" on-change="changeSelectFilter">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            - Tout - <span class="caret"></span>
+                                            <span class="filter">- Tout -</span>
+                                            <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
                                             <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
