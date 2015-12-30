@@ -58,14 +58,15 @@ Example:
                                 </span>
                                 <template is="dom-if" if="{{header.filterOn}}">
 
-                                    <div class="btn-group select" on-change="changeSelectFilter">
+                                    <div class="btn-group select" id="{{header.DisplayMember}}">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="filter">- Tout -</span>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
+                                            <li class="{{isFiltered(header, 'all')}}" on-tap="changeSelectFilter"></li>
                                             <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
-                                                <li class="{{isFiltered(header, item)}}">
+                                                <li class="{{isFiltered(header, item)}}" on-tap="changeSelectFilter">
                                                     {{item}}
                                                 </li>
                                             </template>

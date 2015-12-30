@@ -65,32 +65,32 @@ LoicDataTable = Polymer({
         //}
         this.addClassPageButton();
     },
-    initData: function () {
-        var headers = [], items = [], table = this.querySelector("table");
-        var ths = table.querySelectorAll("thead tr th");
-        for (var i = 0; i < ths.length; i++) {
-            var header = ths.item(i);
-            headers.push({
-                DisplayMember: header.innerText,
-                Value: header.innerText
-            });
-        }
-        ths = table.querySelectorAll("tbody tr");
-        for (var i = 0; i < ths.length; i++) {
-            var prop = {};
-            var tds = ths.item(i).querySelectorAll("td");
-            for (var j = 0; j < tds.length; j++) {
-                var header = headers[j];
-                prop[header.DisplayMember] = tds.item(j).innerText;
-            }
-            items.push(prop);
-        }
+    // initData: function () {
+    //     var headers = [], items = [], table = this.querySelector("table");
+    //     var ths = table.querySelectorAll("thead tr th");
+    //     for (var i = 0; i < ths.length; i++) {
+    //         var header = ths.item(i);
+    //         headers.push({
+    //             DisplayMember: header.innerText,
+    //             Value: header.innerText
+    //         });
+    //     }
+    //     ths = table.querySelectorAll("tbody tr");
+    //     for (var i = 0; i < ths.length; i++) {
+    //         var prop = {};
+    //         var tds = ths.item(i).querySelectorAll("td");
+    //         for (var j = 0; j < tds.length; j++) {
+    //             var header = headers[j];
+    //             prop[header.DisplayMember] = tds.item(j).innerText;
+    //         }
+    //         items.push(prop);
+    //     }
 
-        if (headers.length > 0)
-            this.dataTable.Header = headers;
-        if (items.length > 0)
-            this.dataTable.Items = items;
-    },
+    //     if (headers.length > 0)
+    //         this.dataTable.Header = headers;
+    //     if (items.length > 0)
+    //         this.dataTable.Items = items;
+    // },
     getIn: function (item, member) {
         if(item[member] !== null)
         {
@@ -113,7 +113,7 @@ LoicDataTable = Polymer({
         this._filter();
     },
     changeSelectFilter: function (e, a) {
-        e.model.set("header.filter", e.target.value);
+        e.model.set("header.filter", e.target.innerHTML);
     },
     updateFilter: function(filter){
         this._filter();
