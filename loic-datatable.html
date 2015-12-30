@@ -57,14 +57,29 @@ Example:
                                     <span class="glyphicon glyphicon-menu-down"></span>
                                 </span>
                                 <template is="dom-if" if="{{header.filterOn}}">
-                                    <select class="select" name="{{header.DisplayMember}}" on-change="changeSelectFilter">
+
+                                    <div class="btn-group select" on-change="changeSelectFilter">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            - Tout - <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
+                                                <li class="{{isFiltered(header, item)}}">
+                                                    {{item}}
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+
+                                    <!-- <select class="select" name="{{header.DisplayMember}}" on-change="changeSelectFilter">
                                         <option value="" selected="{{isFiltered(header, '')}}">- Tout -</option>
                                         <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
                                             <option value="{{item}}" selected="{{isFiltered(header, item)}}">
                                                 {{item}}
                                             </option>
                                         </template>
-                                    </select>
+                                    </select> -->
+
                                 </template>
                             </div>
                         </template>
