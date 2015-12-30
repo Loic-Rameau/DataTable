@@ -216,7 +216,7 @@ LoicDataTable = Polymer({
         this.fire('DisplayedItems-changed', this.DisplayedItems);
         this.addClassPageButton();
     },
-    getSelected: function(header){
-        return header.filter === '' ? '- Tout -': header.filter;
+    getSelected: function(filter){
+        return filter === '' ? '- Tout -': filter;
     }
 });
