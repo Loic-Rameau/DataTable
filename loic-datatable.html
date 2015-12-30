@@ -64,7 +64,7 @@ Example:
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li class="{{isFiltered(header, 'all')}}" on-tap="changeSelectFilter"></li>
+                                            <li class="{{isFiltered(header, 'all')}}" on-tap="changeSelectFilter">- Tout -</li>
                                             <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
                                                 <li class="{{isFiltered(header, item)}}" on-tap="changeSelectFilter">
                                                     {{item}}
