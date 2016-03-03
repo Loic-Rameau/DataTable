@@ -1,6 +1,9 @@
 <link rel="import" href="../polymer/polymer.html">
 <script src="../DateJS/build/production/date.min.js"></script>
 <script src="../DateJS/build/production/date-fr-FR.min.js"></script>
+<link rel="stylesheet" href="../bootstrap/dist/css/bootstrap.min.css" type="text/css"/>
+
+<link rel="stylesheet" href="../bootstrap-multiselect/dist/css/bootstrap-multiselect.css">
 <!--
 A datatable whith filtering and ordering
 
@@ -57,8 +60,9 @@ Example:
                                     <span class="glyphicon glyphicon-menu-down"></span>
                                 </span>
                                 <template is="dom-if" if="{{header.filterOn}}">
-
-                                    <div class="btn-group select" id="{{header.DisplayMember}}">
+                                    <select class="select"
+                                            name="{{header.DisplayMember}}" multiple on-change="changeSelectFilter"></select>
+                                    <!-- <div class="btn-group select" id="{{header.DisplayMember}}">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="filter">{{getSelected(header.filter)}}</span>
                                             <span class="caret"></span>
@@ -71,7 +75,7 @@ Example:
                                                 </li>
                                             </template>
                                         </ul>
-                                    </div>
+                                    </div> -->
 
                                     <!-- <select class="select" name="{{header.DisplayMember}}" on-change="changeSelectFilter">
                                         <option value="" selected="{{isFiltered(header, '')}}">- Tout -</option>
