@@ -4,6 +4,102 @@
 <link rel="stylesheet" href="../bootstrap/dist/css/bootstrap.min.css" type="text/css"/>
 
 <link rel="stylesheet" href="../bootstrap-multiselect/dist/css/bootstrap-multiselect.css">
+
+<dom-module id="custom-icons">
+    <template>
+        <span class="priorite" data-toggle="tooltip"
+              hidden="{{!show}}" data-placement="bottom"
+              id="priorite"
+        >
+            <span class="fa" id="icon"></span>
+        </span>
+    </template>
+    <script>
+        Polymer({
+            is:'custom-icons',
+            properties: {
+                show: {
+                    type: Boolean,
+                    value: true,
+                    notify: true
+                },
+                title:{
+                    type: String,
+                    value: ''
+                },
+                originalTitle: {
+                    type: String,
+                    value: ''
+                },
+                icons:{
+                    type: String,
+                    value: 'star'
+                },
+                hard: {
+                    type: Boolean,
+                    value: true,
+                    notify: true
+                },
+                data: {
+                    type: Object,
+                    observer: '_dataChanged'
+                },
+                filter: String,
+                trueData: {
+                    type: Object,
+                    observer: '_update'
+                }
+            },
+            ready: function() {
+                if(this.filter !== undefined) {
+                    this.trueData = this.data[this.filter];
+                }
+                if(this.trueData !== undefined) {
+                    var self = this;
+                    ['show','title','originalTitle','icons', 'hard'].forEach(function(item) {
+                        if(self.trueData[item] !== undefined) {
+                            self.set(item, self.trueData[item]);
+                        }
+                    });
+                }
+                this.$.priorite.setAttribute('data-original-title', this.originalTitle);
+                this.$.priorite.setAttribute('title', this.title);
+                this.$.icon.classList.add('fa-' + this.icons);
+                if(!this.hard) {
+                    this.$.icon.parentNode.classList.add('orange');
+                    this.$.icon.parentNode.classList.remove('blue');
+                } else {
+                    this.$.icon.parentNode.classList.add('blue');
+                    this.$.icon.parentNode.classList.remove('orange');
+                }
+            },
+            _dataChanged: function(newest,old) {
+                if(this.filter !== undefined && newest !== undefined && newest.hasOwnProperty(this.filter)) {
+                    this.trueData = newest[this.filter];
+                }
+            },
+            _update: function(newest) {
+                var self = this;
+                ['show','title','originalTitle','icons', 'hard'].forEach(function(item) {
+                    if(newest[item] !== undefined) {
+                        self.set(item, newest[item]);
+                    }
+                });
+                this.$.priorite.setAttribute('data-original-title', this.originalTitle);
+                this.$.priorite.setAttribute('title', this.title);
+                jQuery(this.$el).find('priorite').tooltip();
+                if(!this.hard) {
+                    this.$.icon.parentNode.classList.add('orange');
+                    this.$.icon.parentNode.classList.remove('blue');
+                } else {
+                    this.$.icon.parentNode.classList.add('blue');
+                    this.$.icon.parentNode.classList.remove('orange');
+                }
+            }
+        });
+    </script>
+</dom-module>
+
 <!--
 A datatable whith filtering and ordering
 
@@ -49,86 +145,70 @@ Example:
 
             }
         </style>
-            <div class="div-table">
-                <div class="form-to-fix table">
-                    <div class="div-table-row table">
-                        <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                            <div class="div-table-col">
+        <div class="div-table">
+            <div class="form-to-fix table">
+                <div class="div-table-row table">
+                    <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
+                        <div class="div-table-col">
                                 <span on-click="reorder" class="no-select" headerMember$="{{header.DisplayMember}}">
                                     {{header.Value}}
                                     <span class="glyphicon glyphicon-menu-up"></span>
                                     <span class="glyphicon glyphicon-menu-down"></span>
                                 </span>
-                                <template is="dom-if" if="{{header.filterOn}}">
-                                    <select class="select"
-                                            name="{{header.DisplayMember}}" multiple on-change="changeSelectFilter"></select>
-                                    <!-- <div class="btn-group select" id="{{header.DisplayMember}}">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="filter">{{getSelected(header.filter)}}</span>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li class="{{isFiltered(header, 'all')}}" on-tap="changeSelectFilter" data-value="">- Tout -</li>
-                                            <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
-                                                <li class="{{isFiltered(header, item)}}" on-tap="changeSelectFilter" data-value$="{{item}}">
-                                                    {{item}}
-                                                </li>
-                                            </template>
-                                        </ul>
-                                    </div> -->
-
-                                    <!-- <select class="select" name="{{header.DisplayMember}}" on-change="changeSelectFilter">
-                                        <option value="" selected="{{isFiltered(header, '')}}">- Tout -</option>
-                                        <template is="dom-repeat" items="{{unique(itemFiltered,header.DisplayMember)}}">
-                                            <option value="{{item}}" selected="{{isFiltered(header, item)}}">
-                                                {{item}}
-                                            </option>
-                                        </template>
-                                    </select> -->
-
-                                </template>
-                            </div>
-                        </template>
+                            <template is="dom-if" if="{{header.filterOn}}">
+                                <select class="select"
+                                        name="{{header.DisplayMember}}" multiple on-change="changeSelectFilter"></select>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <template is="dom-repeat" items="{{DisplayedItems}}">
+                <div class="div-table-row div-table-tbody-row">
+                    <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
+                        <div class="div-table-col" headerMember$="{{header.DisplayMember}}">
+                            <template is="dom-if" if="{{header.isCustomIcons}}" restamp="true">
+                                <custom-icons
+                                        data="{{item}}"
+                                        filter="{{header.DisplayMember}}"
+                                ></custom-icons>
+                            </template>
+                            <template is="dom-if" if="{{!header.isCustomIcons}}">
+                                {{getIn(item,header.DisplayMember)}}
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <div class="div-table-row div-table-footer">
+                <div class="div-table-col">
+                    <div class="pagination">
+                        <button on-click="pageDown" class="btn btn-primary preview">Precedente</button>
+                        <div class="pagination-view">
+                            Page :
+                            <span>{{currentPageDisplay(currentPage)}}</span>/<span>{{getNbPage(itemFiltered, displayByPage)}}</span>
+                        </div>
+                        <button on-click="pageUp" class="btn btn-primary next">Suivante</button>
                     </div>
                 </div>
-                <template is="dom-repeat" items="{{DisplayedItems}}">
-                    <div class="div-table-row div-table-tbody-row">
-                        <template is="dom-repeat" items="{{dataTable.Header}}" as="header">
-                            <div class="div-table-col" headerMember$="{{header.DisplayMember}}">
-                                {{getIn(item,header.DisplayMember)}}
-                            </div>
-                        </template>
-                    </div>
-                </template>
-                <div class="div-table-row div-table-footer">
-                    <div class="div-table-col">
-                        <div class="pagination">
-                            <button on-click="pageDown" class="btn btn-primary preview">Precedente</button>
-                            <div class="pagination-view">
-                                Page :
-                                <span>{{currentPageDisplay(currentPage)}}</span>/<span>{{getNbPage(itemFiltered, displayByPage)}}</span>
-                            </div>
-                            <button on-click="pageUp" class="btn btn-primary next">Suivante</button>
+                <div class="div-table-col">
+                    <div class="pagination-display">
+                        <div class="pagination-length">
+                            <span>Résultats totaux : {{dataTable.Items.length}}</span>
+                            -
+                            <span>Résultats après filtre : {{itemFiltered.length}}</span>
                         </div>
-                    </div>
-                    <div class="div-table-col">
-                        <div class="pagination-display">
-                            <div class="pagination-length">
-                                <span>Résultats totaux : {{dataTable.Items.length}}</span>
-                                -
-                                <span>Résultats après filtre : {{itemFiltered.length}}</span>
-                            </div>
-                            <select name="itemByPage" value="{{displayByPage}}" on-change="itemByPageChanged">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                            </select> résultats par page
-                        </div>
+                        <select name="itemByPage" value="{{displayByPage}}" on-change="itemByPageChanged">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select> résultats par page
                     </div>
                 </div>
             </div>
+        </div>
     </template>
     <script src="loic-datatable.js"></script>
 </dom-module>

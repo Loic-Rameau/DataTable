@@ -40,11 +40,6 @@ LoicDataTable = Polymer({
             type: Array,
             computed: "getItems(itemFiltered, displayByPage, currentPage, dataTable.Order.*)"
         }
-        //emptyContent:{
-        //    type: Boolean,
-        //    readOnly: true,
-        //    value:false
-        //}
     },
     observers: [
         'updateFilter(dataTable.Header.*)',
@@ -59,12 +54,8 @@ LoicDataTable = Polymer({
         this.fire('DisplayedItems-changed', this.DisplayedItems);
     },
     ready: function () {
-        //this._setEmptyContent(Polymer.dom(this).children.length === 0);
-        //if(!this.emptyContent){
-        //    this.initData();
-        //}
         this.addClassPageButton();
-        if(jQuery) {
+        if(window.jQuery !== undefined) {
             InitMultiselect();
         }
         this.refreshSelect();
@@ -161,22 +152,28 @@ LoicDataTable = Polymer({
         return header.filter == filter ? "selected" : "";
     },
     order: function (array, order) {
-        var a = array.sort(function (current, next) {
-            if (order.Sens === 1) {
-                if (current[order.Member] < next[order.Member])
-                    return -1;
-                if (current[order.Member] > next[order.Member])
-                    return 1;
-                return 0;
-            } else if (order.Sens === -1) {
-                if (current[order.Member] > next[order.Member])
-                    return -1;
-                if (current[order.Member] < next[order.Member])
-                    return 1;
-                return 0;
-            }
+        var header = this.dataTable.Header.find(function(header) {
+            return header.DisplayMember === order.Member;
         });
-        return a;
+        if(header !== undefined && header.hasOwnProperty('customFilter')) {
+            return array.sort(header.customFilter.call(this, array, order));
+        } else {
+            return array.sort(function (current, next) {
+                if (order.Sens === 1) {
+                    if (current[order.Member] < next[order.Member])
+                        return -1;
+                    if (current[order.Member] > next[order.Member])
+                        return 1;
+                    return 0;
+                } else if (order.Sens === -1) {
+                    if (current[order.Member] > next[order.Member])
+                        return -1;
+                    if (current[order.Member] < next[order.Member])
+                        return 1;
+                    return 0;
+                }
+            });;
+        }
     },
     itemByPageChanged:function(e)
     {
@@ -208,7 +205,7 @@ LoicDataTable = Polymer({
             includeSelectAllOption: true,
             selectAllNumber: false,
             numberDisplayed: 2
-        }
+        };
         this.dataTable.Header.forEach(function(header, index) {
             var data = that.unique(that.itemFiltered,header.DisplayMember);
             var provider = [];
