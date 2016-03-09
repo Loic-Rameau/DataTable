@@ -574,10 +574,10 @@ function InitMultiselect() {
                 disableIfEmpty: false,
                 delimiterText: ', ',
                 templates: {
-                    button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
+                    button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <span class="caret"></span></button>',
                     ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-                    filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-                    filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove-circle"></i></button></span>',
+                    filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span><input class="form-control multiselect-search" type="text"></div></li>',
+                    filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><span class="glyphicon glyphicon-remove-circle"></span></button></span>',
                     li: '<li><a tabindex="0"><label></label></a></li>',
                     divider: '<li class="multiselect-item divider"></li>',
                     liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'

@@ -7,12 +7,14 @@
 
 <dom-module id="custom-icons">
     <template>
-        <span class="priorite" data-toggle="tooltip"
-              hidden="{{!show}}" data-placement="bottom"
-              id="priorite"
-        >
-            <span class="fa" id="icon"></span>
-        </span>
+        <template is="dom-if" if="{{show}}" restamp="true">
+            <span class$="{{prioriteClass}}"
+                  data-toggle="tooltip" title$="{{title}}"
+                  data-placement="bottom" data-original-title$="{{originalTitle}}"
+            >
+                <span class$="{{iconsClass}}"></span>
+            </span>
+        </template>
     </template>
     <script>
         Polymer({
@@ -48,7 +50,24 @@
                 trueData: {
                     type: Object,
                     observer: '_update'
+                },
+                iconsClass: {
+                    type: String,
+                    computed: 'getClass(icons, show)'
+                },
+                prioriteClass: {
+                    type: String,
+                    computed: 'getClassP(hard, show)'
                 }
+            },
+            getClass: function(icons, show) {
+                return 'fa fa-' + icons;
+            },
+            getClassP: function(hard, show) {
+                setTimeout(function() {
+                    jQuery('.priorite').tooltip();
+                }, 25);
+                return 'priorite ' + (hard ? 'blue': 'orange');
             },
             ready: function() {
                 if(this.filter !== undefined) {
@@ -61,16 +80,6 @@
                             self.set(item, self.trueData[item]);
                         }
                     });
-                }
-                this.$.priorite.setAttribute('data-original-title', this.originalTitle);
-                this.$.priorite.setAttribute('title', this.title);
-                this.$.icon.classList.add('fa-' + this.icons);
-                if(!this.hard) {
-                    this.$.icon.parentNode.classList.add('orange');
-                    this.$.icon.parentNode.classList.remove('blue');
-                } else {
-                    this.$.icon.parentNode.classList.add('blue');
-                    this.$.icon.parentNode.classList.remove('orange');
                 }
             },
             _dataChanged: function(newest,old) {
@@ -85,16 +94,6 @@
                         self.set(item, newest[item]);
                     }
                 });
-                this.$.priorite.setAttribute('data-original-title', this.originalTitle);
-                this.$.priorite.setAttribute('title', this.title);
-                jQuery(this.$el).find('priorite').tooltip();
-                if(!this.hard) {
-                    this.$.icon.parentNode.classList.add('orange');
-                    this.$.icon.parentNode.classList.remove('blue');
-                } else {
-                    this.$.icon.parentNode.classList.add('blue');
-                    this.$.icon.parentNode.classList.remove('orange');
-                }
             }
         });
     </script>
