@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
         <title>loic-datatable Demo</title>
         <script src="../../jquery/dist/jquery.min.js"></script>
-        <!--<script src="../../bootstrap/dist/js/bootstrap.min.js"></script>-->
+        <script src="../../bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
         <link rel="stylesheet" href="../../bootstrap/dist/css/bootstrap.min.css">
         <link rel="import" href="../loic-datatable.html">
@@ -23,7 +23,130 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <p>An example of <code>&lt;loic-datatable&gt;</code>:</p>
 
-        <loic-datatable custom-class="toto">
-        </loic-datatable>
+        <loic-datatable></loic-datatable>
+
+        <script>
+            var element = document.getElementsByTagName('loic-datatable').item(0);
+
+            element.set('dataTable.Header',[
+                {
+                    Value: "A",
+                    DisplayMember: "a",
+                    filter: "",
+                    filterOn: true,
+                    isCustomIcons: false
+                },{
+                    Value: "B",
+                    DisplayMember: "b",
+                    filter: "",
+                    filterOn: true,
+                    isCustomIcons: false
+                },{
+                    Value: "C",
+                    DisplayMember: "c",
+                    filter: "",
+                    filterOn: true,
+                    isCustomIcons: false
+                },{
+                    Value: "D",
+                    DisplayMember: "d",
+                    filter: "",
+                    filterOn: true,
+                    isCustomIcons: false
+                },{
+                    Value: "E",
+                    DisplayMember: "e",
+                    filter: "",
+                    filterOn: true,
+                    isCustomIcons: false
+                },{
+                    Value: "F",
+                    DisplayMember: "f",
+                    filter: "",
+                    filterOn: false,
+                    isCustomIcons: false
+                },{
+                    Value: "G",
+                    DisplayMember: "g",
+                    filter: "",
+                    filterOn: false,
+                    isCustomIcons: true,
+                    customFilter: function(array, order) {
+                        return function(current, next) {
+                            if (order.Sens === 1) {
+                                if (current[order.Member].h < next[order.Member].h)
+                                    return -1;
+                                if (current[order.Member].h > next[order.Member].h)
+                                    return 1;
+                                return 0;
+                            } else if (order.Sens === -1) {
+                                if (current[order.Member].h > next[order.Member].h)
+                                    return -1;
+                                if (current[order.Member].h < next[order.Member].h)
+                                    return 1;
+                                return 0;
+                            }
+                        };
+                    }
+                }
+            ]);
+            element.set('dataTable.Items', [
+                {
+                    a: 'a',
+                    b: 'b',
+                    c: 'c',
+                    d: 'd',
+                    e: 'e',
+                    f: 'f',
+                    g: {
+                        h: 'h',
+                        show: true,
+                        hard: true,
+                        orinalTile: 'Title'
+                    }
+                },{
+                    a: 'i',
+                    b: 'j',
+                    c: 'k',
+                    d: 'l',
+                    e: 'm',
+                    f: 'n',
+                    g: {
+                        h: 'p',
+                        show: true,
+                        hard: true,
+                        orinalTile: 'Title whatever'
+                    }
+                },{
+                    a: 'q',
+                    b: 'r',
+                    c: 's',
+                    d: 't',
+                    e: 'u',
+                    f: 'v',
+                    g: {
+                        h: 'w',
+                        show: true,
+                        hard: true,
+                        orinalTile: 'Title'
+                    }
+                },{
+                    a: 'x',
+                    b: 'y',
+                    c: 'z',
+                    d: '0',
+                    e: '1',
+                    f: '2',
+                    g: {
+                        h: '3',
+                        show: true,
+                        hard: true,
+                        orinalTile: 'Title smurf'
+                    }
+                }
+            ]);
+            element.set('displayByPage', 15);
+            element.refreshSelect();
+        </script>
     </body>
 </html>
