@@ -39,6 +39,10 @@ LoicDataTable = Polymer({
         DisplayedItems: {
             type: Array,
             computed: "getItems(itemFiltered, displayByPage, currentPage, dataTable.Order.*)"
+        },
+        selectAllText: {
+            type: string,
+            value : 'Select all'
         }
     },
     observers: [
@@ -230,7 +234,8 @@ LoicDataTable = Polymer({
                     } else {
                         that.set('dataTable.Header.' + index + '.filter', selected)
                     }
-                }
+                },
+                selectAllText: that.selectAllText
             });
             jQuery('loic-datatable .select[name="' + header.DisplayMember + '"]').multiselect(opt).multiselect('dataprovider', provider);
         });
