@@ -41,7 +41,7 @@ LoicDataTable = Polymer({
             computed: "getItems(itemFiltered, displayByPage, currentPage, dataTable.Order.*)"
         },
         selectAllText: {
-            type: string,
+            type: String,
             value : 'Select all'
         }
     },
