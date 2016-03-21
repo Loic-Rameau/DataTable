@@ -43,6 +43,10 @@ LoicDataTable = Polymer({
         selectAllText: {
             type: String,
             value : 'Select all'
+        },
+        orderRegexFilter: {
+            type : RegExp,
+            value : /^[^a-zA-Z0-9_éàçèïî ]+\s?([a-zA-Z0-9_éàçèïî]+)/i
         }
     },
     observers: [
@@ -158,25 +162,39 @@ LoicDataTable = Polymer({
     order: function (array, order) {
         var header = this.dataTable.Header.find(function(header) {
             return header.DisplayMember === order.Member;
-        });
+        }), regex = this.orderRegexFilter;
         if(header !== undefined && header.hasOwnProperty('customFilter')) {
             return array.sort(header.customFilter.call(this, array, order));
         } else {
             return array.sort(function (current, next) {
+                var a, b;
+                if(current[order.Member] !== undefined && current[order.Member].constructor !== Date) {
+                    a = current[order.Member].toLowerCase().trim().replace(
+                        regex,
+                        '$1'
+                    );
+                    b = next[order.Member].toLowerCase().trim().replace(
+                        regex,
+                        '$1'
+                    );
+                } else {
+                    a = current[order.Member];
+                    b = current[order.Member];
+                }
                 if (order.Sens === 1) {
-                    if (current[order.Member] < next[order.Member])
+                    if (a < b)
                         return -1;
-                    if (current[order.Member] > next[order.Member])
+                    if (a > b)
                         return 1;
                     return 0;
                 } else if (order.Sens === -1) {
-                    if (current[order.Member] > next[order.Member])
+                    if (a > b)
                         return -1;
-                    if (current[order.Member] < next[order.Member])
+                    if (a < b)
                         return 1;
                     return 0;
                 }
-            });;
+            });
         }
     },
     itemByPageChanged:function(e)
