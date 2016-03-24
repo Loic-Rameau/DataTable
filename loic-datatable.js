@@ -195,7 +195,7 @@ LoicDataTable = Polymer({
                     );
                 } else {
                     a = current[order.Member];
-                    b = current[order.Member];
+                    b = next[order.Member];
                 }
                 if (order.Sens === 1) {
                     if (a < b)
