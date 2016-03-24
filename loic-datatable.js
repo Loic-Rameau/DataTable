@@ -79,12 +79,28 @@ LoicDataTable = Polymer({
             return '-';
     },
     unique: function (array, member) {
-        var a = [];
+        var a = [], regex = this.orderRegexFilter;
         array.forEach(function (item) {
             if (a.indexOf(item[member]) === -1)
                 a.push(item[member]);
         });
-        return a;
+        return a.sort(function(a, b) {
+            if(typeof a === typeof b && typeof a === 'string') {
+                a = a.toLowerCase().trim().replace(
+                    regex,
+                    '$1'
+                );
+                b = b.toLowerCase().trim().replace(
+                    regex,
+                    '$1'
+                );
+            }
+            if (a < b)
+                return -1;
+            if (a > b)
+                return 1;
+            return 0;
+        });
     },
     updateItems:function(items){
         this._filter();
