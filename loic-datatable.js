@@ -184,7 +184,7 @@ LoicDataTable = Polymer({
         } else {
             return array.sort(function (current, next) {
                 var a, b;
-                if(current[order.Member] !== undefined && current[order.Member].constructor !== Date) {
+                if(typeof current[order.Member] === typeof next[order.Member] && typeof next[order.Member] === 'string') {
                     a = current[order.Member].toLowerCase().trim().replace(
                         regex,
                         '$1'
