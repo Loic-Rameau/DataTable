@@ -6,7 +6,7 @@
 <dom-module id="custom-icons">
     <template>
         <template is="dom-if" if="{{show}}" restamp="true">
-            <span class$="{{prioriteClass}}"
+            <span class$="{{icoClass}}"
                   data-toggle="tooltip" title$="{{title}}"
                   data-placement="bottom" data-original-title$="{{originalTitle}}"
             >
@@ -35,11 +35,6 @@
                     type: String,
                     value: 'star'
                 },
-                hard: {
-                    type: Boolean,
-                    value: true,
-                    notify: true
-                },
                 data: {
                     type: Object,
                     observer: '_dataChanged'
@@ -53,19 +48,23 @@
                     type: String,
                     computed: 'getClass(icons, show)'
                 },
-                prioriteClass: {
+                icoClass: {
                     type: String,
-                    computed: 'getClassP(hard, show)'
+                    computed: 'getClassP(ico, show)'
+                },
+                ico: {
+                    type: String,
+                    value: ''
                 }
             },
             getClass: function(icons, show) {
                 return 'fa fa-' + icons;
             },
-            getClassP: function(hard, show) {
+            getClassP: function(ico, show) {
                 setTimeout(function() {
                     jQuery('.priorite').tooltip();
                 }, 25);
-                return 'priorite ' + (hard ? 'bigDelay': 'delay');
+                return 'priorite ' + ico;
             },
             ready: function() {
                 if(this.filter !== undefined) {
@@ -168,6 +167,7 @@ Example:
                                 <custom-icons
                                         data="{{item}}"
                                         filter="{{header.DisplayMember}}"
+                                        ico="{{icoClass(item, header)}}"
                                 ></custom-icons>
                             </template>
                             <template is="dom-if" if="{{!header.isCustomIcons}}">
