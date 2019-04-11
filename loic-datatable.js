@@ -67,6 +67,34 @@ LoicDataTable = Polymer({
             type: String,
             value: 'Select all'
         },
+        nonSelectedText: {
+            type: String,
+            value: '- Tous -'
+        },
+        totauxText: {
+            type: String,
+            value: 'Résultats totaux'
+        },
+        totauxFilteredText: {
+            type: String,
+            value: 'Résultats après filtre'
+        },
+        perPageText: {
+            type: String,
+            value: 'résultats par page'
+        },
+        pageText: {
+            type: String,
+            value: 'Page'
+        },
+        previewText: {
+            type: String,
+            value: 'Precedente'
+        },
+        nextText: {
+           type: String,
+           value: 'Suivante'
+        },
         orderRegexFilter: {
             type: RegExp,
             value: /^[^a-zA-Z0-9_éàçèïî ]+\s?([a-zA-Z0-9_éàçèïî]+)/i
@@ -256,12 +284,12 @@ LoicDataTable = Polymer({
         this.refreshSelect();
     },
     getSelected: function (filter) {
-        return filter === '' ? '- Tout -' : filter;
+        return filter === '' ? this.selectAllText : filter;
     },
     refreshSelect: function () {
         var that = this;
         var opt = {
-            nonSelectedText: '- Tous -',
+            nonSelectedText: this.nonSelectedText,
             allSelectedText: function (a, b) {
                 return b;
             },
@@ -307,7 +335,7 @@ LoicDataTable = Polymer({
                 },
                 selectAllText: that.selectAllText
             });
-            jQuery('loic-datatable .select[name="' + header.DisplayMember + '"]').multiselect(opt).multiselect('dataprovider', provider);
+            jQuery('loic-datatable .select[name="' + header.DisplayMember + '"]').multiselect(opts).multiselect('dataprovider', provider);
         });
     },
     icoClass: function(item, header) {

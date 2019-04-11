@@ -180,20 +180,20 @@ Example:
             <div class="div-table-row div-table-footer">
                 <div class="div-table-col">
                     <div class="pagination">
-                        <button on-click="pageDown" class="btn btn-primary preview">Precedente</button>
+                        <button on-click="pageDown" class="btn btn-primary preview">{{previewText}}</button>
                         <div class="pagination-view">
-                            Page :
+                            {{pageText}} :
                             <span>{{currentPageDisplay(currentPage)}}</span>/<span>{{getNbPage(itemFiltered, displayByPage)}}</span>
                         </div>
-                        <button on-click="pageUp" class="btn btn-primary next">Suivante</button>
+                        <button on-click="pageUp" class="btn btn-primary next">{{nextText}}</button>
                     </div>
                 </div>
                 <div class="div-table-col">
                     <div class="pagination-display">
                         <div class="pagination-length">
-                            <span>Résultats totaux : {{dataTable.Items.length}}</span>
+                            <span>{{totauxText}}</span> : <span>{dataTable.Items.length}}</span>
                             -
-                            <span>Résultats après filtre : {{itemFiltered.length}}</span>
+                            <span>{{totauxFilteredText}}</span> : <span>{{itemFiltered.length}}</span>
                         </div>
                         <select name="itemByPage" value="{{displayByPage}}" on-change="itemByPageChanged">
                             <option value="5">5</option>
@@ -201,7 +201,7 @@ Example:
                             <option value="15">15</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
-                        </select> résultats par page
+                        </select> {{perPageText}}
                     </div>
                 </div>
             </div>
